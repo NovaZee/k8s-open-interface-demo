@@ -1,0 +1,20 @@
+syntax = "proto3";
+package greeter;
+
+option go_package = "./proto";
+
+service SyncDevice {
+  rpc GetDeviceStatus (CheckDeviceStatus) returns (DeviceStatus) {}
+}
+
+message CheckDeviceStatus {
+  int32 deviceType = 1;
+  string deviceName = 2;
+}
+
+message DeviceStatus {
+  string deviceType = 1;
+  string deviceName = 2;
+  string deviceStatus = 3;
+  string deviceMeta = 4;
+}
