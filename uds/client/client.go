@@ -7,7 +7,7 @@ import (
 	"log"
 )
 
-const protocol = "unix://"
+const protocol = "unix:///"
 
 func main() {
 	socketPath := "/tmp/uds.sock"

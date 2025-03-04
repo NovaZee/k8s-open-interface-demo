@@ -41,13 +41,13 @@ func (p *PluginCore) DeviceStatus(ctx context.Context, deviceName string, kind i
 	if err != nil {
 		return "", err
 	}
-	loopCtx, cancel := context.WithTimeout(ctx, time.Duration(60)*time.Second)
-	defer cancel()
 
 	wg := sync.WaitGroup{}
 	go func() {
+		loopCtx, cancel := context.WithTimeout(context.Background(), time.Duration(60)*time.Second)
 		wg.Add(1)
 		defer wg.Done()
+		defer cancel()
 		_, err := f(loopCtx, deviceName)
 		if err != nil {
 			fmt.Println("Loop check failed: ", err)
