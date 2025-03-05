@@ -1,28 +1,28 @@
-package main
+package client
 
 import (
 	"context"
 	"fmt"
 	"google.golang.org/grpc"
-	remoteclient "koid/uds/protoc/proto"
+	"koid/pkg/uds/protoc/proto"
 	"sync"
 	"time"
 )
 
-var localCache = make(map[string]remoteclient.DeviceStatus)
+var localCache = make(map[string]proto.DeviceStatus)
 var mu sync.Mutex
 
 type PluginCore struct {
-	remoteClient remoteclient.SyncDeviceClient
+	remoteClient proto.SyncDeviceClient
 	timeout      time.Duration
 	ClientConn   *grpc.ClientConn
 }
 
 func NewRemoteClient(conn *grpc.ClientConn) *PluginCore {
-	c := remoteclient.NewSyncDeviceClient(conn)
+	c := proto.NewSyncDeviceClient(conn)
 	_, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	localCache = make(map[string]remoteclient.DeviceStatus)
+	localCache = make(map[string]proto.DeviceStatus)
 	return &PluginCore{
 		remoteClient: c,
 		timeout:      5 * time.Second,
@@ -63,7 +63,7 @@ func (p *PluginCore) deviceStatus(ctx context.Context, deviceName string, kind i
 	mu.Lock()
 	defer mu.Unlock()
 
-	status, err := p.remoteClient.GetDeviceStatus(ctx, &remoteclient.CheckDeviceStatus{
+	status, err := p.remoteClient.GetDeviceStatus(ctx, &proto.CheckDeviceStatus{
 		DeviceName: deviceName,
 		DeviceType: int32(kind),
 	})

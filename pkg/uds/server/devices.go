@@ -2,15 +2,15 @@ package server
 
 import (
 	"context"
-	pb "koid/uds/protoc/proto"
+	"koid/pkg/uds/protoc/proto"
 )
 
 type CoreServer struct {
-	pb.SyncDeviceServer
+	proto.SyncDeviceServer
 }
 
-func (s *CoreServer) GetDeviceStatus(context.Context, *pb.CheckDeviceStatus) (*pb.DeviceStatus, error) {
-	return &pb.DeviceStatus{
+func (s *CoreServer) GetDeviceStatus(context.Context, *proto.CheckDeviceStatus) (*proto.DeviceStatus, error) {
+	return &proto.DeviceStatus{
 		DeviceType:   "flex",
 		DeviceName:   "prc1",
 		DeviceStatus: "pending",

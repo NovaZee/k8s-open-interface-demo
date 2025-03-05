@@ -2,8 +2,8 @@ package main
 
 import (
 	"google.golang.org/grpc"
-	pb "koid/uds/protoc/proto"
-	"koid/uds/server"
+	pb "koid/pkg/uds/protoc/proto"
+	"koid/pkg/uds/server"
 	"log"
 	"net"
 	"os"
