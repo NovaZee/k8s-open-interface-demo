@@ -43,9 +43,9 @@ func (p *PluginCore) DeviceStatus(ctx context.Context, deviceName string, kind i
 	}
 
 	wg := sync.WaitGroup{}
+	wg.Add(1)
 	go func() {
 		loopCtx, cancel := context.WithTimeout(context.Background(), time.Duration(60)*time.Second)
-		wg.Add(1)
 		defer wg.Done()
 		defer cancel()
 		_, err := f(loopCtx, deviceName)
